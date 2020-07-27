@@ -3,6 +3,7 @@ from splinter import Browser
 from bs4 import BeautifulSoup as soup
 import pandas as pd
 import datetime as dt
+import time
 
 # Set the executable path and initialize the chrome browser in splinter.
 executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
@@ -25,8 +26,7 @@ def scrape_all():
         "mars_hemis_list": mars_hemis_list
     }
 
-    # Stop the webdriver and return data
-    browser.quit()
+    # Return data
     return data
 
 def mars_news(browser):
@@ -34,6 +34,7 @@ def mars_news(browser):
     # Visit the mars nasa news site
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
+    time.sleep(7)
     
     # Optional delay for loading the page
     browser.is_element_present_by_css("ul.item_list li.slide", wait_time=1)
@@ -94,12 +95,13 @@ def featured_image(browser):
 def four_hemis(browser):
     
     # Visit URL
-    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars/'
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.visit(url)
-    for link in range(4): 
+
+    for i in range(4): 
 
         # Find and click the first product
-        product_elem = browser.find_by_css("a.product-item h3")[link]
+        product_elem = browser.find_by_css("a.product-item h3")[i]
         product_elem.click()
 
         # Find the sample button
@@ -121,7 +123,7 @@ def four_hemis(browser):
         # Finally, we navigate backwards
         browser.back()
         
-    return mars_hemis_dict
+    return mars_hemis_list
 
 ### Mars Facts
 
